@@ -1,1 +1,30 @@
+name: Schedule NHL Bet Bot
 
+on:
+  schedule:
+    # 7 AM Hermosillo time (UTC -7)
+    - cron: '0 14 * * *'  # 7 AM Hermosillo time (UTC)
+    # 11 PM Hermosillo time (UTC -7)
+    - cron: '0 6 * * *'   # 11 PM Hermosillo time (UTC)
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run script
+        run: |
+          database_winner.py
